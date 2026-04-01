@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Dennis Best Men's Salon</title>
+  <meta name="description" content="Premium barbershop services including classic haircuts, hot towel shaves, beard sculpting, and hair treatments." />
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+  <header class="nav" role="banner">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo" aria-label="Dennis Best Men's Salon Home">
+        <img src="images/logo.png" alt="Dennis Best Men's Salon Logo" />
+        <div class="nav__logo-text">
+          Dennis Best
+          <span>Men's Salon</span>
+        </div>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary Navigation">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a href="contact.html" class="nav__book">Book Now</a>
+      </nav>
+
+      <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="nav__mobile" aria-label="Mobile Navigation">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html">Book an Appointment</a>
+  </nav>
+
+  <main>
+
+    <!-- ═══════════════════════ PAGE HEADER ════════════════════════════ -->
+    <section class="page-header">
+      <div class="container">
+        <span class="page-header__label">What We Offer</span>
+        <h1>Our <em style="font-style:italic; color:var(--color-gold);">Services</em></h1>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ SERVICES GRID ══════════════════════════ -->
+    <section class="services-section">
+      <div class="container">
+
+        <div class="services__head reveal" style="text-align:center; margin-bottom: 16px;">
+          <span class="section-label">Crafted for the Gentleman</span>
+          <h2 class="section-title">Premium <em>Grooming</em> Menu</h2>
+          <div class="gold-divider center"></div>
+          <p class="section-sub" style="margin: 0 auto;">
+            Every service is performed with precision tools, luxury products, and the kind of attention to detail that keeps our clients coming back for years.
+          </p>
+        </div>
+
+        <div class="services__grid">
+
+          <div class="service-card reveal reveal-delay-1">
+            <div class="service-card__number">01</div>
+            <h3>Classic Haircut</h3>
+            <p>Our signature cut — shaped and styled to complement your face structure and lifestyle. Includes wash, cut, and finish.</p>
+            <div class="service-card__price">
+              <span>$30</span>
+              <div class="service-card__tag">45 min</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal reveal-delay-2">
+            <div class="service-card__number">02</div>
+            <h3>Haircut &amp; Beard Trim</h3>
+            <p>The full package — a precision haircut paired with a meticulous beard trim and edge-up for a polished, complete look.</p>
+            <div class="service-card__price">
+              <span>$45</span>
+              <div class="service-card__tag">60 min</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal reveal-delay-3">
+            <div class="service-card__number">03</div>
+            <h3>Hot Towel Shave</h3>
+            <p>The ultimate luxury experience. Hot towel preparation, premium shave cream, straight razor shave, and a cooling balm finish.</p>
+            <div class="service-card__price">
+              <span>$35</span>
+              <div class="service-card__tag">50 min</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal reveal-delay-1">
+            <div class="service-card__number">04</div>
+            <h3>Beard Sculpting</h3>
+            <p>Define and shape your beard with expert precision. Clean lines, defined edges, and a well-groomed finish that lasts.</p>
+            <div class="service-card__price">
+              <span>$25</span>
+              <div class="service-card__tag">30 min</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal reveal-delay-2">
+            <div class="service-card__number">05</div>
+            <h3>Kids Cut <small style="font-size:0.7em; color:var(--color-muted);">(under 12)</small></h3>
+            <p>A patient and fun experience for the young gentleman. Clean, styled cuts that kids and parents both love.</p>
+            <div class="service-card__price">
+              <span>$20</span>
+              <div class="service-card__tag">30 min</div>
+            </div>
+          </div>
+
+          <div class="service-card reveal reveal-delay-3">
+            <div class="service-card__number">06</div>
+            <h3>Hair + Scalp Treatment</h3>
+            <p>A deep conditioning and scalp massage treatment using premium oils and serums to nourish, hydrate, and restore vitality.</p>
+            <div class="service-card__price">
+              <span>$50</span>
+              <div class="service-card__tag">60 min</div>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="services__note reveal">
+          Prices may vary. <a href="contact.html">Contact us</a> for group rates, events, or custom service packages.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════ CTA BANNER ═════════════════════════════ -->
+    <section class="cta-banner">
+      <div class="container">
+        <span class="section-label reveal">Ready to Get Started?</span>
+        <h2 class="cta-banner__title reveal">Book Your Appointment Now</h2>
+        <p class="cta-banner__sub reveal">Walk-ins welcome — appointments always preferred.</p>
+        <a href="contact.html" class="btn btn-solid reveal">Reserve Your Seat</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════ FOOTER ═════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img src="images/logo.png" alt="Dennis Best Men's Salon" class="footer__logo" />
+          <div class="footer__brand-text">
+            <h3>Dennis Best Men's Salon</h3>
+            <p>Precision cuts and classic experiences crafted for the modern gentleman since 2005.</p>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Quick Links</h4>
+          <nav class="footer__links">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About Us</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+        </div>
+        <div class="footer__col">
+          <h4>Hours</h4>
+          <ul class="footer__hours">
+            <span><strong>Mon – Fri:</strong> 9:00am – 7:00pm</span>
+            <span><strong>Saturday:</strong> 9:00am – 5:00pm</span>
+            <span><strong>Sunday:</strong> Closed</span>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2024 Dennis Best Men's Salon. All rights reserved.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
