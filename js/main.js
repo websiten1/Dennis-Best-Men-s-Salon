@@ -1,21 +1,46 @@
 /* ============================================================
-   Dennis Best Men's Salon — Main JavaScript
+   Dennis Best Men's Salon — Main JavaScript v2
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── Nav: scroll effect ──────────────────────────────────── */
+  /* ── Floating "Book Now" button (injected once, all pages) ─── */
+  const floatBtn = document.createElement('a');
+  floatBtn.href = 'contact.html';
+  floatBtn.className = 'float-book';
+  floatBtn.setAttribute('aria-label', 'Book an appointment');
+  floatBtn.textContent = '📅 Book Now';
+  document.body.appendChild(floatBtn);
+
+  // Show after 100px scroll
+  const toggleFloat = () => {
+    if (window.scrollY > 100) floatBtn.classList.add('visible');
+    else floatBtn.classList.remove('visible');
+  };
+  window.addEventListener('scroll', toggleFloat, { passive: true });
+  toggleFloat();
+
+  // Bounce animation every 4 seconds
+  setInterval(() => {
+    floatBtn.classList.remove('bounce');
+    void floatBtn.offsetWidth; // force reflow to restart animation
+    floatBtn.classList.add('bounce');
+    floatBtn.addEventListener('animationend', () => {
+      floatBtn.classList.remove('bounce');
+    }, { once: true });
+  }, 4000);
+
+  /* ── Nav: scroll effect + blur ───────────────────────────────── */
   const nav = document.querySelector('.nav');
   const onScroll = () => {
-    if (window.scrollY > 40) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
+    nav.classList.toggle('scrolled', window.scrollY > 40);
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ── Nav: hamburger ──────────────────────────────────────── */
-  const hamburger    = document.querySelector('.nav__hamburger');
-  const mobileMenu   = document.querySelector('.nav__mobile');
+  /* ── Nav: hamburger ─────────────────────────────────────────── */
+  const hamburger  = document.querySelector('.nav__hamburger');
+  const mobileMenu = document.querySelector('.nav__mobile');
 
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', () => {
@@ -25,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    // Close on outside click
     document.addEventListener('click', e => {
       if (!nav.contains(e.target)) {
         mobileMenu.classList.remove('open');
@@ -34,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close on link click
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
@@ -44,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Active nav link ─────────────────────────────────────── */
+  /* ── Active nav link ─────────────────────────────────────────── */
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav__links a, .nav__mobile a').forEach(a => {
     const href = a.getAttribute('href');
@@ -53,13 +76,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ── Hero bg Ken Burns ───────────────────────────────────── */
-  const heroBg = document.querySelector('.hero__bg');
-  if (heroBg) {
-    setTimeout(() => heroBg.classList.add('loaded'), 100);
+  /* ── Hero: grain layer + staggered word reveal ───────────────── */
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    // Grain overlay
+    const grain = document.createElement('div');
+    grain.className = 'hero__grain';
+    hero.appendChild(grain);
+
+    // Ken Burns bg
+    const heroBg = hero.querySelector('.hero__bg');
+    if (heroBg) setTimeout(() => heroBg.classList.add('loaded'), 100);
+
+    // Staggered word reveal on hero title
+    const heroTitle = hero.querySelector('.hero__title');
+    if (heroTitle) {
+      const lines = Array.from(heroTitle.childNodes);
+      lines.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const words = node.textContent.trim().split(/\s+/);
+          const frag = document.createDocumentFragment();
+          words.forEach((w, i) => {
+            if (!w) return;
+            const span = document.createElement('span');
+            span.className = 'hero__word';
+            span.textContent = w + ' ';
+            span.style.animationDelay = `${0.3 + i * 0.12}s`;
+            frag.appendChild(span);
+          });
+          node.replaceWith(frag);
+        } else if (node.nodeName === 'EM') {
+          const words = node.textContent.trim().split(/\s+/);
+          node.textContent = '';
+          words.forEach((w, i) => {
+            const span = document.createElement('span');
+            span.className = 'hero__word';
+            span.textContent = w + (i < words.length - 1 ? ' ' : '');
+            span.style.animationDelay = `${0.55 + i * 0.12}s`;
+            node.appendChild(span);
+          });
+        }
+      });
+    }
   }
 
-  /* ── Scroll Reveal ───────────────────────────────────────── */
+  /* ── Scroll Reveal (IntersectionObserver) ────────────────────── */
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -67,20 +128,19 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObs.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* ── Testimonials Carousel ───────────────────────────────── */
-  const track  = document.querySelector('.testimonials__track');
-  const dots   = document.querySelectorAll('.testimonials__dot');
+  /* ── Testimonials Carousel ───────────────────────────────────── */
+  const track   = document.querySelector('.testimonials__track');
+  const dots    = document.querySelectorAll('.testimonials__dot');
   const prevBtn = document.querySelector('.testimonials__arrow.prev');
   const nextBtn = document.querySelector('.testimonials__arrow.next');
 
   if (track) {
     let current = 0;
-    const slides = track.querySelectorAll('.testimonials__slide');
-    const total  = slides.length;
+    const total = track.querySelectorAll('.testimonials__slide').length;
     let autoTimer;
 
     const goTo = (idx) => {
@@ -96,12 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
     if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { goTo(i); startAuto(); }));
 
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => { goTo(i); startAuto(); });
-    });
-
-    // Touch/swipe
     let touchStartX = 0;
     track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     track.addEventListener('touchend', e => {
@@ -113,18 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
     startAuto();
   }
 
-  /* ── Gallery Lightbox ────────────────────────────────────── */
-  const lightbox    = document.querySelector('.lightbox');
-  const lbImg       = document.querySelector('.lightbox__img');
-  const lbClose     = document.querySelector('.lightbox__close');
-  const lbPrev      = document.querySelector('.lightbox__prev');
-  const lbNext      = document.querySelector('.lightbox__next');
-  const lbCounter   = document.querySelector('.lightbox__counter');
+  /* ── Gallery Lightbox ────────────────────────────────────────── */
+  const lightbox     = document.querySelector('.lightbox');
+  const lbImg        = document.querySelector('.lightbox__img');
+  const lbClose      = document.querySelector('.lightbox__close');
+  const lbPrev       = document.querySelector('.lightbox__prev');
+  const lbNext       = document.querySelector('.lightbox__next');
+  const lbCounter    = document.querySelector('.lightbox__counter');
   const galleryItems = document.querySelectorAll('.gallery__item');
 
   if (lightbox && galleryItems.length) {
     let lbIndex = 0;
-    const srcs  = Array.from(galleryItems).map(el => el.querySelector('img').src);
+    const srcs = Array.from(galleryItems).map(el => el.querySelector('img').src);
 
     const openLb = (idx) => {
       lbIndex = (idx + srcs.length) % srcs.length;
@@ -139,25 +195,21 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = '';
     };
 
-    galleryItems.forEach((item, i) => {
-      item.addEventListener('click', () => openLb(i));
-    });
-
-    if (lbClose)  lbClose.addEventListener('click', closeLb);
-    if (lbPrev)   lbPrev.addEventListener('click', () => openLb(lbIndex - 1));
-    if (lbNext)   lbNext.addEventListener('click', () => openLb(lbIndex + 1));
-
+    galleryItems.forEach((item, i) => item.addEventListener('click', () => openLb(i)));
+    if (lbClose) lbClose.addEventListener('click', closeLb);
+    if (lbPrev)  lbPrev.addEventListener('click', () => openLb(lbIndex - 1));
+    if (lbNext)  lbNext.addEventListener('click', () => openLb(lbIndex + 1));
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
 
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('open')) return;
-      if (e.key === 'Escape')      closeLb();
-      if (e.key === 'ArrowLeft')   openLb(lbIndex - 1);
-      if (e.key === 'ArrowRight')  openLb(lbIndex + 1);
+      if (e.key === 'Escape')     closeLb();
+      if (e.key === 'ArrowLeft')  openLb(lbIndex - 1);
+      if (e.key === 'ArrowRight') openLb(lbIndex + 1);
     });
   }
 
-  /* ── Gallery scroll-in animation ────────────────────────── */
+  /* ── Gallery scroll-in stagger ───────────────────────────────── */
   const galleryObs = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
@@ -169,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.gallery__item').forEach(el => galleryObs.observe(el));
 
-  /* ── Contact Form ────────────────────────────────────────── */
+  /* ── Contact Form ─────────────────────────────────────────────── */
   const form = document.querySelector('.contact-form form');
   if (form) {
     form.addEventListener('submit', e => {
@@ -178,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const orig = btn.textContent;
       btn.textContent = 'Sending…';
       btn.disabled = true;
-
       setTimeout(() => {
         form.reset();
         btn.textContent = orig;
@@ -192,14 +243,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Smooth anchor scroll offset ────────────────────────── */
+  /* ── Smooth anchor scroll with offset ────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (target) {
         e.preventDefault();
-        const top = target.getBoundingClientRect().top + window.scrollY - 90;
-        window.scrollTo({ top, behavior: 'smooth' });
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
       }
     });
   });

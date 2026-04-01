@@ -1668,3 +1668,224 @@ h1, h2, h3, h4 {
   .hero__cta        { flex-direction: column; align-items: center; }
   .about-stats      { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   DESIGN UPGRADES — v2
+   ============================================================ */
+
+/* ── Gold top accent line (premium brand detail) ─────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-gold) 20%,
+    var(--color-gold-lt) 50%,
+    var(--color-gold) 80%,
+    transparent 100%
+  );
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ── Enhanced nav blur on scroll ──────────────────────────────── */
+.nav.scrolled {
+  background: rgba(8, 8, 8, 0.88) !important;
+  backdrop-filter: blur(18px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.4) !important;
+}
+
+/* ── Button shimmer sweep on hover ────────────────────────────── */
+@keyframes shimmerSweep {
+  from { left: -80%; }
+  to   { left: 130%; }
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+  opacity: 0;
+  transition: none;
+}
+
+.btn:hover::after {
+  opacity: 1;
+  animation: shimmerSweep 0.55s ease forwards;
+}
+
+/* ── Service card gold glow on hover ──────────────────────────── */
+.service-card:hover {
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(201, 168, 76, 0.2),
+    0 0 30px rgba(201, 168, 76, 0.12) !important;
+}
+
+/* ── Gallery image scale on hover ─────────────────────────────── */
+.gallery__item img {
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.gallery__item:hover img {
+  transform: scale(1.08) !important;
+}
+
+/* ── Hero grain texture overlay ───────────────────────────────── */
+.hero__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Hero staggered word reveal ──────────────────────────────── */
+.hero__word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(22px);
+  animation: wordReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes wordReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Floating Book Now button ─────────────────────────────────── */
+@keyframes pulseRing {
+  0%   { box-shadow: 0 4px 20px rgba(201,168,76,0.45), 0 0 0 0 rgba(201,168,76,0.5); }
+  70%  { box-shadow: 0 4px 20px rgba(201,168,76,0.45), 0 0 0 14px rgba(201,168,76,0); }
+  100% { box-shadow: 0 4px 20px rgba(201,168,76,0.45), 0 0 0 0 rgba(201,168,76,0); }
+}
+
+@keyframes floatBounce {
+  0%   { transform: translateX(-50%) translateY(0); }
+  40%  { transform: translateX(-50%) translateY(-8px); }
+  70%  { transform: translateX(-50%) translateY(-4px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+
+.float-book {
+  display: none;
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1500;
+  background: var(--color-gold);
+  color: #0f0f0f;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  padding: 15px 32px;
+  border-radius: 50px;
+  white-space: nowrap;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, background 0.25s ease;
+  animation: pulseRing 2.2s ease-out infinite;
+}
+
+.float-book.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.float-book.bounce {
+  animation: pulseRing 2.2s ease-out infinite, floatBounce 0.55s ease;
+}
+
+.float-book:hover {
+  background: var(--color-gold-lt);
+}
+
+@media (max-width: 768px) {
+  .float-book { display: block; }
+}
+
+/* ── Footer contact details ───────────────────────────────────── */
+.footer__contact-details {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.footer__contact-details a,
+.footer__contact-details span {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  line-height: 1.4;
+  transition: color var(--transition);
+}
+
+.footer__contact-details a:hover { color: var(--color-gold); }
+
+.footer__contact-details svg {
+  width: 13px;
+  height: 13px;
+  stroke: var(--color-gold);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.footer__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 16px;
+  padding: 7px 14px;
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 40px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  letter-spacing: 0.04em;
+}
+
+/* ── Map embed updated height ─────────────────────────────────── */
+.map-embed iframe {
+  height: 400px !important;
+}
+
+/* ── Section alternating backgrounds ─────────────────────────── */
+.why        { background: var(--color-surface); }
+.testimonials { background: var(--color-bg); }
+.cta-banner { background: var(--color-surface); }
+.team-section { background: var(--color-surface); }
+.timeline-section { background: var(--color-bg); }
+.about-story { background: var(--color-bg); }
+.services-section { background: var(--color-bg); }
+.gallery-section { background: var(--color-bg); }
+.contact-section { background: var(--color-bg); }
