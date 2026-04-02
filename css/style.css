@@ -1926,3 +1926,148 @@ section {
   .hero__cta        { flex-direction: column; align-items: center; }
   .about-stats      { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   SPACING SYSTEM & FLOAT BUTTON REDESIGN — v4
+   ============================================================ */
+
+/* ── Typography spacing ────────────────────────────────────── */
+h1 { letter-spacing: 0.04em; word-spacing: 0.08em; line-height: 1.05; }
+h2 { letter-spacing: 0.05em; word-spacing: 0.06em; }
+h3 { letter-spacing: 0.03em; }
+p  { line-height: 1.8; word-spacing: 0.02em; }
+
+.hero__title {
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  word-spacing: 0.08em;
+}
+
+.hero__title em { display: block; }
+
+/* ── Nav spacing ───────────────────────────────────────────── */
+.nav__links         { gap: 2.5rem; }
+.nav__links a       { letter-spacing: 0.14em; word-spacing: 0.1em; }
+.nav__inner         { padding: 0 2.5rem; }
+
+/* ── Button spacing ────────────────────────────────────────── */
+.btn                { letter-spacing: 0.12em; word-spacing: 0.08em; }
+
+/* ── Hero spacing ──────────────────────────────────────────── */
+.hero__content      { max-width: 900px; }
+.hero__eyebrow      { margin-bottom: 1.25rem; }
+.hero__sub          { margin-top: 1.5rem; margin-bottom: 0; }
+.hero__cta          { margin-top: 2.5rem; gap: 1.25rem; }
+
+/* ── Section padding ───────────────────────────────────────── */
+.why,
+.testimonials,
+.cta-banner,
+.about-story,
+.team-section,
+.timeline-section,
+.services-section,
+.gallery-section,
+.contact-section    { padding: clamp(60px, 8vw, 120px) 0; }
+
+/* ── Section head & label spacing ─────────────────────────── */
+.why__head,
+.testimonials__head,
+.team__head,
+.timeline__head     { margin-bottom: 3rem; }
+.section-label      { margin-bottom: 1rem; }
+
+/* ── Card & grid spacing ───────────────────────────────────── */
+.services__grid     { gap: 2rem; }
+.service-card       { padding: 2.5rem; }
+.gallery__masonry   { column-gap: 1.25rem; }
+.gallery__item      { margin-bottom: 1.25rem; }
+.team__grid         { gap: 2.5rem; }
+.why__grid          { gap: 2rem; }
+
+/* ── Footer spacing ────────────────────────────────────────── */
+.footer             { padding: 4rem clamp(20px, 5vw, 80px) 2rem; }
+.footer__grid       { gap: 3rem; }
+.footer__hours span,
+.footer__links a,
+.footer__contact-details a,
+.footer__contact-details span { line-height: 2; }
+
+/* ── Rating badge — no emoji ───────────────────────────────── */
+.footer__rating {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: rgba(192, 57, 43, 0.06);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  padding: 6px 14px;
+  display: inline-block;
+  margin-top: 14px;
+}
+
+/* ── Mobile spacing ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .why,
+  .testimonials,
+  .cta-banner,
+  .about-story,
+  .team-section,
+  .timeline-section,
+  .services-section,
+  .gallery-section,
+  .contact-section  { padding: 50px 20px; }
+
+  .why__grid,
+  .services__grid,
+  .team__grid       { gap: 1.5rem; }
+
+  .hero__title      { font-size: clamp(2.8rem, 12vw, 5rem); }
+}
+
+/* ── Disable old float-book pill button ────────────────────── */
+.float-book { display: none !important; pointer-events: none !important; }
+
+/* ── Full-width bottom bar (mobile only) ───────────────────── */
+#floating-book-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  display: none;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+#floating-book-btn a {
+  display: block;
+  width: 100%;
+  background-color: #c0392b;
+  color: #f0ede8;
+  text-align: center;
+  padding: 18px 0;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 -4px 20px rgba(192, 57, 43, 0.4);
+  transition: background-color 0.3s ease;
+}
+
+#floating-book-btn a:hover,
+#floating-book-btn a:active { background-color: #e74c3c; }
+
+@media (max-width: 768px) {
+  #floating-book-btn { display: block; }
+}
+
+#floating-book-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -1,44 +1,25 @@
 /* ============================================================
-   Dennis Best Men's Salon — Main JavaScript v2
+   Dennis Best Men's Salon — Main JavaScript v4
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── Floating "Book Now" button (injected once, all pages) ─── */
-  const floatBtn = document.createElement('a');
-  floatBtn.href = 'contact.html';
-  floatBtn.className = 'float-book';
-  floatBtn.setAttribute('aria-label', 'Book an appointment');
-  floatBtn.textContent = '📅 Book Now';
-  document.body.appendChild(floatBtn);
+  /* ── Full-width floating bottom bar (mobile) ─────────────── */
+  const floatingBtn = document.getElementById('floating-book-btn');
+  if (floatingBtn) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) floatingBtn.classList.add('visible');
+      else floatingBtn.classList.remove('visible');
+    }, { passive: true });
+  }
 
-  // Show after 100px scroll
-  const toggleFloat = () => {
-    if (window.scrollY > 100) floatBtn.classList.add('visible');
-    else floatBtn.classList.remove('visible');
-  };
-  window.addEventListener('scroll', toggleFloat, { passive: true });
-  toggleFloat();
-
-  // Bounce animation every 4 seconds
-  setInterval(() => {
-    floatBtn.classList.remove('bounce');
-    void floatBtn.offsetWidth; // force reflow to restart animation
-    floatBtn.classList.add('bounce');
-    floatBtn.addEventListener('animationend', () => {
-      floatBtn.classList.remove('bounce');
-    }, { once: true });
-  }, 4000);
-
-  /* ── Nav: scroll effect + blur ───────────────────────────────── */
+  /* ── Nav: scroll blur effect ─────────────────────────────── */
   const nav = document.querySelector('.nav');
-  const onScroll = () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  };
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ── Nav: hamburger ─────────────────────────────────────────── */
+  /* ── Nav: hamburger menu ─────────────────────────────────── */
   const hamburger  = document.querySelector('.nav__hamburger');
   const mobileMenu = document.querySelector('.nav__mobile');
 
@@ -67,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Active nav link ─────────────────────────────────────────── */
+  /* ── Active nav link ─────────────────────────────────────── */
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav__links a, .nav__mobile a').forEach(a => {
     const href = a.getAttribute('href');
@@ -76,28 +57,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ── Hero: grain layer + staggered word reveal ───────────────── */
+  /* ── Hero: grain layer + Ken Burns + staggered word reveal ── */
   const hero = document.querySelector('.hero');
   if (hero) {
-    // Grain overlay
+    // Grain div (suppressed visually — body::after handles global grain)
     const grain = document.createElement('div');
     grain.className = 'hero__grain';
     hero.appendChild(grain);
 
-    // Ken Burns bg
+    // Ken Burns effect
     const heroBg = hero.querySelector('.hero__bg');
     if (heroBg) setTimeout(() => heroBg.classList.add('loaded'), 100);
 
     // Staggered word reveal on hero title
     const heroTitle = hero.querySelector('.hero__title');
     if (heroTitle) {
-      const lines = Array.from(heroTitle.childNodes);
-      lines.forEach(node => {
+      Array.from(heroTitle.childNodes).forEach(node => {
         if (node.nodeType === Node.TEXT_NODE) {
-          const words = node.textContent.trim().split(/\s+/);
-          const frag = document.createDocumentFragment();
+          const words = node.textContent.trim().split(/\s+/).filter(Boolean);
+          const frag  = document.createDocumentFragment();
           words.forEach((w, i) => {
-            if (!w) return;
             const span = document.createElement('span');
             span.className = 'hero__word';
             span.textContent = w + ' ';
@@ -106,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           node.replaceWith(frag);
         } else if (node.nodeName === 'EM') {
-          const words = node.textContent.trim().split(/\s+/);
+          const words = node.textContent.trim().split(/\s+/).filter(Boolean);
           node.textContent = '';
           words.forEach((w, i) => {
             const span = document.createElement('span');
@@ -120,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ── Scroll Reveal (IntersectionObserver) ────────────────────── */
+  /* ── Scroll Reveal (IntersectionObserver) ────────────────── */
   const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -132,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* ── Testimonials Carousel ───────────────────────────────────── */
+  /* ── Testimonials Carousel ───────────────────────────────── */
   const track   = document.querySelector('.testimonials__track');
   const dots    = document.querySelectorAll('.testimonials__dot');
   const prevBtn = document.querySelector('.testimonials__arrow.prev');
@@ -169,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startAuto();
   }
 
-  /* ── Gallery Lightbox ────────────────────────────────────────── */
+  /* ── Gallery Lightbox ────────────────────────────────────── */
   const lightbox     = document.querySelector('.lightbox');
   const lbImg        = document.querySelector('.lightbox__img');
   const lbClose      = document.querySelector('.lightbox__close');
@@ -209,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Gallery scroll-in stagger ───────────────────────────────── */
+  /* ── Gallery scroll-in stagger ───────────────────────────── */
   const galleryObs = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
@@ -221,14 +200,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.gallery__item').forEach(el => galleryObs.observe(el));
 
-  /* ── Contact Form ─────────────────────────────────────────────── */
+  /* ── Contact Form ────────────────────────────────────────── */
   const form = document.querySelector('.contact-form form');
   if (form) {
     form.addEventListener('submit', e => {
       e.preventDefault();
       const btn  = form.querySelector('.form-submit');
       const orig = btn.textContent;
-      btn.textContent = 'Sending…';
+      btn.textContent = 'Sending...';
       btn.disabled = true;
       setTimeout(() => {
         form.reset();
@@ -243,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Smooth anchor scroll with offset ────────────────────────── */
+  /* ── Smooth anchor scroll with nav offset ────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
