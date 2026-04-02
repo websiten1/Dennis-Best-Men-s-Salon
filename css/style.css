@@ -459,6 +459,34 @@ section {
   color: var(--color-accent);
 }
 
+.hero-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+
+.hero-line-1 {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 10vw, 9rem);
+  color: #f0ede8;
+  letter-spacing: 0.06em;
+  word-spacing: 0.15em;
+  line-height: 1.05;
+}
+
+.hero-line-2 {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 10vw, 9rem);
+  color: #c0392b;
+  letter-spacing: 0.06em;
+  word-spacing: 0.15em;
+  line-height: 1.05;
+}
+
 .hero__word {
   display: inline-block;
   opacity: 0;
@@ -2006,6 +2034,16 @@ p  { line-height: 1.8; word-spacing: 0.02em; }
   padding: 6px 14px;
   display: inline-block;
   margin-top: 14px;
+}
+
+/* ── Hero heading mobile ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-line-1,
+  .hero-line-2 {
+    font-size: clamp(2.8rem, 11vw, 4.5rem);
+    word-spacing: 0.12em;
+    letter-spacing: 0.04em;
+  }
 }
 
 /* ── Mobile spacing ────────────────────────────────────────── */
