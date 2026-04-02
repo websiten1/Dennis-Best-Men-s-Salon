@@ -462,29 +462,29 @@ section {
 .hero-heading {
   display: flex;
   flex-direction: column;
-  gap: 0.3em;
-  line-height: 1;
+  gap: 0.2em;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
-.hero-line-1 {
-  display: block;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4rem, 10vw, 9rem);
-  color: #f0ede8;
-  letter-spacing: 0.06em;
-  word-spacing: 0.15em;
-  line-height: 1.05;
-}
-
+.hero-line-1,
 .hero-line-2 {
   display: block;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4rem, 10vw, 9rem);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+  line-height: 1.1;
+}
+
+.hero-line-1 {
+  font-size: clamp(2.5rem, 6.5vw, 7rem);
+  color: #f0ede8;
+}
+
+.hero-line-2 {
+  font-size: clamp(2.5rem, 6.5vw, 7rem);
   color: #c0392b;
-  letter-spacing: 0.06em;
-  word-spacing: 0.15em;
-  line-height: 1.05;
 }
 
 .hero__word {
@@ -2036,13 +2036,22 @@ p  { line-height: 1.8; word-spacing: 0.02em; }
   margin-top: 14px;
 }
 
+/* ── Hero heading tablet ───────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero-line-1,
+  .hero-line-2 {
+    font-size: clamp(2rem, 5.5vw, 5rem);
+    white-space: nowrap;
+  }
+}
+
 /* ── Hero heading mobile ───────────────────────────────────── */
 @media (max-width: 768px) {
   .hero-line-1,
   .hero-line-2 {
-    font-size: clamp(2.8rem, 11vw, 4.5rem);
-    word-spacing: 0.12em;
-    letter-spacing: 0.04em;
+    font-size: clamp(2rem, 9vw, 3.5rem);
+    white-space: normal;
+    word-spacing: 0.08em;
   }
 }
 
